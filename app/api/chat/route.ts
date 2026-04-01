@@ -1,6 +1,7 @@
 import { streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
+import * as Sentry from "@sentry/nextjs";
 import { addMessage, updateConversationTitle, getMessages } from "@/lib/queries";
 
 function getTextFromUIMessage(message: UIMessage): string {
@@ -12,6 +13,8 @@ function getTextFromUIMessage(message: UIMessage): string {
 
 export async function POST(req: Request) {
   const { messages, conversationId } = await req.json();
+
+  Sentry.setConversationId(conversationId);
 
   // Save the user message
   const userMessage = messages[messages.length - 1] as UIMessage;
@@ -31,6 +34,12 @@ export async function POST(req: Request) {
   const result = streamText({
     model: anthropic("claude-sonnet-4-20250514"),
     messages: modelMessages,
+    experimental_telemetry: {
+      isEnabled: true,
+      functionId: "chat",
+      recordInputs: true,
+      recordOutputs: true,
+    },
     onFinish: async ({ text }) => {
       addMessage(conversationId, "assistant", text);
     },
