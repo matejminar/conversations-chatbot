@@ -3,6 +3,7 @@ import os
 import sentry_sdk
 from dotenv import load_dotenv
 
+load_dotenv(".env.local")
 load_dotenv()
 
 sentry_sdk.init(
@@ -70,7 +71,7 @@ async def api_chat(request: Request):
     conversation_id = body["conversationId"]
     messages = body["messages"]
 
-    sentry_sdk.set_tag("conversation_id", conversation_id)
+    sentry_sdk.ai.set_conversation_id(conversation_id)
 
     # Save user message
     user_message = messages[-1]
