@@ -2,7 +2,21 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+Set your Anthropic API key as an environment variable:
+
+```bash
+export ANTHROPIC_API_KEY=your-api-key-here
+```
+
+Or create a `.env.local` file in the project root:
+
+```
+ANTHROPIC_API_KEY=your-api-key-here
+```
+
+### Run the development server
 
 ```bash
 npm run dev
