@@ -44,3 +44,9 @@ next-env.d.ts
 chat.db
 chat.db-wal
 chat.db-shm
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
